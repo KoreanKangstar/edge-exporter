@@ -1,3 +1,6 @@
+---
+
+```md
 # 🛰️ Edge Exporter (FastAPI + Prometheus + Offline Queue)
 
 이 프로젝트는 **Edge 디바이스(Orange Pi 5 등)** 에서  
@@ -28,10 +31,11 @@ Prometheus 형식으로 `/metrics` 제공
 ### ✔ Offline Mode (Queue)  
 Cloud로 업로드 실패 시:
 
+```
+
 logs/offline_queue.json
 
-yaml
-코드 복사
+```
 
 에 자동 저장 →  
 이후 Cloud 응답 성공 시 **자동 flush 후 업로드**
@@ -41,13 +45,14 @@ yaml
 ### ✔ Full Logging System  
 로그는 아래 구조로 기록됩니다:
 
+```
+
 /logs
-├── edge.log (info 로그)
-├── error.log (에러 로그)
+├── edge.log        (info 로그)
+├── error.log       (에러 로그)
 └── offline_queue.json (오프라인 큐)
 
-yaml
-코드 복사
+```
 
 ---
 
@@ -60,19 +65,20 @@ yaml
 
 ## 📁 Project Structure
 
+```
+
 edge-exporter/
 ├── app.py
 ├── utils/
-│ ├── logger.py
-│ └── offline_queue.py
+│   ├── logger.py
+│   └── offline_queue.py
 ├── logs/
-│ ├── edge.log
-│ ├── error.log
-│ └── offline_queue.json
+│   ├── edge.log
+│   ├── error.log
+│   └── offline_queue.json
 └── requirements.txt
 
-yaml
-코드 복사
+````
 
 ---
 
@@ -84,19 +90,29 @@ yaml
 sudo apt update
 sudo apt install python3-pip -y
 pip3 install -r requirements.txt
-🎯 Run Manually (테스트용)
-bash
-코드 복사
+````
+
+---
+
+# 🎯 Run Manually (테스트용)
+
+```bash
 python3 app.py
-🔥 Systemd 등록 (자동 실행)
-1) 서비스 파일 생성
-bash
-코드 복사
+```
+
+---
+
+# 🔥 Systemd 등록 (자동 실행)
+
+### 1) 서비스 파일 생성
+
+```bash
 sudo nano /etc/systemd/system/edge-exporter.service
+```
+
 내용 붙여넣기:
 
-ini
-코드 복사
+```ini
 [Unit]
 Description=Edge Metrics Exporter
 After=network.target
@@ -109,26 +125,35 @@ RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
-2) systemd 적용
-bash
-코드 복사
+```
+
+### 2) systemd 적용
+
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable edge-exporter
 sudo systemctl start edge-exporter
-3) 상태 확인
-bash
-코드 복사
+```
+
+### 3) 상태 확인
+
+```bash
 systemctl status edge-exporter
-🌐 Cloud Integration
+```
+
+---
+
+# 🌐 Cloud Integration
+
 Edge는 다음 주소로 JSON 로그를 업로드합니다:
 
-perl
-코드 복사
+```
 POST http://<CLOUD-ENDPOINT>/log
+```
+
 Cloud 팀이 준비해야 하는 API:
 
-json
-코드 복사
+```json
 {
   "edge_cpu_usage": 12.3,
   "edge_ram_usage": 45.0,
@@ -136,4 +161,63 @@ json
   "edge_temperature": 41.5,
   "edge_heartbeat_total": 1764464110
 }
+```
+
 Cloud에서 200 OK 반환하면 queue flush 실행됩니다.
+
+---
+
+# 🧪 Metrics Endpoints
+
+메트릭 확인:
+
+```
+curl http://<EDGE-IP>:8000/metrics
+```
+
+Prometheus 형식으로 출력됩니다.
+
+---
+
+# 📝 License
+
+MIT License
+
+````
+
+---
+
+# ✅ **2. .gitignore (완성본)**  
+프로젝트 루트에 `.gitignore` 파일 만들고 아래 내용 넣으면 됩니다.
+
+---
+
+```gitignore
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+logs/edge.log
+logs/error.log
+logs/offline_queue.json
+
+# Virtual environments
+venv/
+env/
+
+# System files
+.DS_Store
+````
+
+---
+
+# 📌 이제 해야 할 것
+
+### 👉 GitHub에 반영:
+
+```bash
+git add .
+git commit -m "add README and .gitignore"
+git push
+```
