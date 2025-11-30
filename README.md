@@ -1,5 +1,3 @@
----
-
 ```md
 # 🛰️ Edge Exporter (FastAPI + Prometheus + Offline Queue)
 
