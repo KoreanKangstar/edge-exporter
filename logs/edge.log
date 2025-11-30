@@ -1,0 +1,3 @@
+2025-11-30 08:55:10,965 - INFO - Metrics: {'edge_cpu_usage': 1.4, 'edge_ram_usage': 20.1, 'edge_disk_usage': 26.4, 'edge_temperature': 29.615, 'edge_heartbeat_total': 1764464110}
+2025-11-30 08:55:11,000 - WARNING - [OFFLINE] 저장됨 → {'edge_cpu_usage': 1.4, 'edge_ram_usage': 20.1, 'edge_disk_usage': 26.4, 'edge_temperature': 29.615, 'edge_heartbeat_total': 1764464110}
+2025-11-30 08:55:11,017 - INFO - [OFFLINE] Flush 완료. 남은 개수: 1

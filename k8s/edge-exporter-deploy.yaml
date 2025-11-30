@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-exporter
+  namespace: edge
+  labels:
+    app: edge-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-exporter
+  template:
+    metadata:
+      labels:
+        app: edge-exporter
+    spec:
+      containers:
+        - name: edge-exporter
+          image: kyhoon0828/edge-exporter:0.1
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-exporter
+  namespace: edge
+  labels:
+    app: edge-exporter
+spec:
+  selector:
+    app: edge-exporter
+  ports:
+    - name: http-metrics
+      port: 8000
+      targetPort: 8000
